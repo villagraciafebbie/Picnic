@@ -1,12 +1,14 @@
 <?php
 // config.php - Database configuration file
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // Database configuration for InfinityFree Production Server
-define('DB_HOST', 'YOUR_MYSQL_HOSTNAME_HERE'); // DO NOT USE localhost
-define('DB_NAME', 'if0_4025922_YOUR_DATABASE_NAME'); // Must start with your username prefix
-define('DB_USER', 'if0_4025922'); // Your exact hosting account username
-define('DB_PASS', 'YOUR_COPIED_PASSWORD_HERE'); // The hidden hosting password
+define('DB_HOST', 'sql304.infinityfree.com'); // ⚠️ Replace with your exact MySQL Hostname from InfinityFree panel
+define('DB_NAME', 'if0_4025922_picnic_invite'); // Your database name 
+define('DB_USER', 'if0_4025922');              // Your hosting account username
+define('DB_PASS', 'YOUR_COPIED_PASSWORD_HERE'); // ⚠️ Replace with your unique hidden Account Password
 
 // Create connection function
 function getDBConnection() {
@@ -59,7 +61,7 @@ function saveRSVP($data) {
         ];
     } catch(PDOException $e) {
         error_log("Failed to save RSVP: " . $e->getMessage());
-        return ['success' => false, 'message' => 'Failed to save RSVP'];
+        return ['success' => false, 'message' => 'Failed to save data entry'];
     }
 }
 

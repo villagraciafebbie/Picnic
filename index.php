@@ -4,6 +4,9 @@ require_once 'config.php';
 
 // Handle AJAX form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+    // Clear out any accidental white spaces or previous output buffering
+    if (ob_get_length()) ob_clean();
+    
     header('Content-Type: application/json');
     
     // Validate input
@@ -12,20 +15,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['HTTP_X_REQUESTED_WI
     $color = $_POST['color'] ?? null;
     
     $errors = [];
-    
-    if (!$date) {
-        $errors['date'] = 'Date is required';
-    }
-    if (!$time) {
-        $errors['time'] = 'Time is required';
-    }
-    if (!$color) {
-        $errors['color'] = 'Color is required';
-    }
+    if (!$date) $errors['date'] = 'Date is required';
+    if (!$time) $errors['time'] = 'Time is required';
+    if (!$color) $errors['color'] = 'Color is required';
     
     if (!empty($errors)) {
         echo json_encode(['success' => false, 'errors' => $errors]);
-        exit;
+        exit; // Always exit after sending JSON!
     }
     
     // Save to database
@@ -35,16 +31,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['HTTP_X_REQUESTED_WI
         'color' => $color
     ]);
     
-    // Store in session for current visit
-    $_SESSION['picnic_rsvp'] = [
-        'date' => $date,
-        'time' => $time,
-        'color' => $color,
-        'food_suggestion' => getFoodSuggestion($color)
-    ];
+    // Store in session for current visit if successful
+    if ($result && $result['success']) {
+        $_SESSION['picnic_rsvp'] = [
+            'date' => $date,
+            'time' => $time,
+            'color' => $color,
+            'id' => $result['id']
+        ];
+    }
     
+    // Return the clean JSON back to script.js
     echo json_encode($result);
-    exit;
+    exit; // 🚀 CRITICAL FIX: Stops index.php from appending the entire HTML layout below!
 }
 ?>
 <!DOCTYPE html>

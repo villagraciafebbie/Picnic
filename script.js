@@ -228,15 +228,25 @@ document.getElementById("submitBtn")?.addEventListener("click", () => {
             'X-Requested-With': 'XMLHttpRequest'
         }
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("HTTP connection error: " + response.status);
+        }
+        return response.json();
+    })
     .then(data => {
         console.log("Server response:", data);
-        // Proceed to final page on success
-        nextPage(5);
+        if (data && data.success) {
+            // Proceed to final page on success
+            nextPage(5);
+        } else {
+            console.error("Backend validation or DB saving failed:", data);
+            nextPage(5);
+        }
     })
     .catch(error => {
-        console.log("Error or no backend response, continuing to picnic!", error);
-        // Even if PHP fails, proceed to page 5
+        console.error("Error parsing JSON or connecting to backend:", error);
+        // Even if network falls offline, proceed to fallback screen gracefully
         nextPage(5);
     })
     .finally(() => {
