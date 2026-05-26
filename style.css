@@ -1,0 +1,505 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Fredoka', sans-serif;
+}
+
+body {
+    overflow: hidden;
+    background: #b8d4a3;
+}
+
+/* PAGES */
+.page {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.page.active {
+    display: flex;
+}
+
+/* Background image styling */
+.bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+}
+
+/* Girl character - responsive size! */
+.girl {
+    position: absolute;
+    left: -10px;
+    bottom: 0;
+    width: clamp(180px, 38vw, 380px);
+    z-index: 15;
+    pointer-events: auto;
+    filter: drop-shadow(8px 12px 15px rgba(0,0,0,0.25));
+    transition: transform 0.2s ease;
+}
+
+/* Girl hover effect */
+.girl:hover {
+    transform: scale(1.02);
+}
+
+/* Final page girl - slightly different sizing */
+.final-girl {
+    width: clamp(200px, 42vw, 420px);
+    left: -20px;
+    bottom: 0;
+    z-index: 15;
+}
+
+/* Reaction image that appears when clicking NO */
+.reaction-img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(280px, 70vw);
+    z-index: 100;
+    border-radius: 30px;
+    animation: popIn 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+    pointer-events: none;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+@keyframes popIn {
+    0% {
+        transform: translate(-50%, -50%) scale(0.2);
+        opacity: 0;
+    }
+    80% {
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+/* Semi-transparent card - fully responsive */
+.overlay {
+    width: min(90%, 720px);
+    min-height: auto;
+    background: rgba(245, 255, 235, 0.95);
+    border: 5px solid #2c3e2b;
+    border-radius: 55px;
+    padding: 25px 30px;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 25px 40px rgba(0,0,0,0.2);
+    position: relative;
+    z-index: 10;
+    transition: all 0.3s ease;
+    margin: 0 15px;
+}
+
+/* For page 5 special bubble layout */
+.bubble-overlay {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.center-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+}
+
+h1 {
+    font-size: clamp(1.8rem, 7vw, 3.8rem);
+    font-weight: 700;
+    text-align: center;
+    color: #2c4724;
+    text-shadow: 2px 2px 0 #e9f5df;
+    letter-spacing: -0.5px;
+    word-break: break-word;
+}
+
+.left {
+    text-align: left;
+}
+
+.sub {
+    font-size: clamp(1.2rem, 4vw, 1.8rem);
+    margin-top: 10px;
+    color: #4a6741;
+    font-weight: 500;
+}
+
+/* BUTTON GROUP - moving NO button container */
+.button-group {
+    position: relative;
+    width: min(500px, 85vw);
+    height: clamp(80px, 15vw, 120px);
+    margin-top: 20px;
+}
+
+.btn-cute {
+    border: none;
+    border-radius: 60px;
+    padding: clamp(10px, 2vw, 14px) clamp(25px, 5vw, 45px);
+    font-size: clamp(1.2rem, 5vw, 2rem);
+    font-weight: 700;
+    border: 4px solid #1e2f1c;
+    position: absolute;
+    transition: all 0.2s cubic-bezier(0.2, 1.2, 0.8, 1);
+    cursor: pointer;
+    box-shadow: 0 6px 0 #5a3e2b;
+    white-space: nowrap;
+}
+
+.btn-cute:active {
+    transform: translateY(3px);
+    box-shadow: 0 2px 0 #5a3e2b;
+}
+
+.yes-btn {
+    background: #9fc7e8;
+    left: 0;
+    color: #1f3a3f;
+}
+
+.yes-btn:hover {
+    background: #b0d4f5;
+    transform: scale(1.02);
+}
+
+.no-btn {
+    background: #e6a3a8;
+    right: 0;
+    color: #3a1e1e;
+    transition: left 0.15s ease-out, top 0.15s ease-out, transform 0.1s;
+    cursor: pointer;
+}
+
+.no-btn:hover {
+    background: #f0b3b8;
+}
+
+/* NEXT BUTTON */
+.next-btn {
+    width: auto;
+    min-width: min(180px, 60vw);
+    padding: clamp(12px, 2.5vw, 18px) clamp(25px, 5vw, 45px);
+    border-radius: 50px;
+    border: 4px solid #1e3a1a;
+    background: linear-gradient(135deg, #ffe6b0, #ffcc80);
+    font-size: clamp(1.3rem, 4.5vw, 1.8rem);
+    font-weight: 800;
+    color: #4a2e1e;
+    margin-top: 35px;
+    transition: all 0.25s ease;
+    box-shadow: 0 8px 0 #b97f44;
+    cursor: pointer;
+    letter-spacing: 2px;
+}
+
+.next-btn:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(135deg, #fff0c0, #ffdd99);
+    box-shadow: 0 12px 0 #b97f44;
+}
+
+.next-btn:active {
+    transform: translateY(5px);
+    box-shadow: 0 4px 0 #b97f44;
+}
+
+/* Form styles */
+label {
+    font-size: clamp(1.2rem, 4vw, 1.8rem);
+    font-weight: 600;
+    margin-top: 20px;
+    display: block;
+    color: #2a4823;
+}
+
+.form-control,
+.form-select {
+    height: clamp(55px, 8vw, 70px);
+    border-radius: 50px;
+    border: 3px solid #2c4724;
+    background: #fef9e6;
+    font-size: clamp(1rem, 3.5vw, 1.3rem);
+    padding-left: 20px;
+    margin-top: 8px;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.form-control:focus,
+.form-select:focus {
+    outline: none;
+    border-color: #7caf5a;
+    box-shadow: 0 0 0 3px rgba(124, 175, 90, 0.3);
+}
+
+.submit-btn {
+    border: none;
+    border-radius: 60px;
+    border: 4px solid #2c4724;
+    background: #f4cda6;
+    padding: clamp(10px, 2.5vw, 14px) clamp(25px, 5vw, 45px);
+    font-size: clamp(1.2rem, 4.5vw, 1.8rem);
+    font-weight: 700;
+    margin-top: 25px;
+    transition: 0.2s;
+    cursor: pointer;
+    box-shadow: 0 6px 0 #7a5a3a;
+    width: auto;
+}
+
+.submit-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 2px 0 #7a5a3a;
+}
+
+/* Error message for color picker */
+.error-msg {
+    color: #d32f2f;
+    font-size: clamp(0.9rem, 3vw, 1.2rem);
+    font-weight: 600;
+    margin-top: 10px;
+    background: rgba(255, 235, 235, 0.95);
+    padding: 6px 14px;
+    border-radius: 40px;
+    display: inline-block;
+}
+
+/* Color grid - responsive */
+.colors {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(75px, 100px));
+    gap: clamp(12px, 3vw, 25px);
+    justify-content: center;
+    margin-top: 25px;
+    margin-bottom: 20px;
+    padding: 0 10px;
+}
+
+.color-box {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    max-width: 110px;
+    border-radius: 30px;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 3px solid #2b3a24;
+    margin: 0 auto;
+}
+
+.color-box:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+}
+
+.color-box.selected {
+    box-shadow: 0 0 0 5px #ffd966, 0 0 0 8px #2b3a24;
+    transform: scale(1.02);
+}
+
+.color-box.selected::after {
+    content: "✓";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: bold;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+}
+
+.red { background: #b92f34; }
+.blue { background: #4834c3; }
+.green { background: #39a51f; }
+.yellow { background: #d5c52e; }
+.purple { background: #a13ac6; }
+.pink { background: #d447c4; }
+.black { background: #1e1e2a; }
+.orange { background: #d48708; }
+
+.small-text {
+    text-align: center;
+    font-size: clamp(0.9rem, 3.5vw, 1.2rem);
+    color: #3b5532;
+    font-weight: 500;
+}
+
+/* SPEECH BUBBLE MESSAGE - OVAL SHAPE fully responsive */
+.speech-bubble {
+    position: relative;
+    background: #ffffffea;
+    border-radius: 100px;
+    padding: clamp(16px, 3vw, 24px) clamp(25px, 6vw, 50px);
+    min-width: min(240px, 75vw);
+    text-align: center;
+    font-size: clamp(1.2rem, 4.5vw, 2rem);
+    font-weight: 800;
+    color: #c94f4f;
+    border: 4px solid #2b3a24;
+    box-shadow: 12px 15px 0 rgba(0,0,0,0.1);
+    backdrop-filter: blur(2px);
+    font-family: 'Fredoka', cursive;
+    letter-spacing: 1px;
+    line-height: 1.3;
+    display: inline-block;
+}
+
+/* speech bubble triangle tail for oval bubble */
+.speech-bubble::before {
+    content: '';
+    position: absolute;
+    left: -22px;
+    bottom: 35px;
+    width: 0;
+    height: 0;
+    border: 16px solid transparent;
+    border-right-color: #2b3a24;
+    border-left: 0;
+    border-bottom: 0;
+    transform: rotate(15deg);
+}
+
+.speech-bubble::after {
+    content: '';
+    position: absolute;
+    left: -16px;
+    bottom: 39px;
+    width: 0;
+    height: 0;
+    border: 12px solid transparent;
+    border-right-color: #ffffffea;
+    border-left: 0;
+    border-bottom: 0;
+    transform: rotate(15deg);
+}
+
+/* ========== EXTRA RESPONSIVE: VERY SMALL SCREENS (max-width 480px) ========== */
+@media (max-width: 550px) {
+    .overlay {
+        padding: 18px 20px;
+        border-radius: 40px;
+        width: 92%;
+    }
+    
+    .button-group {
+        width: 90vw;
+    }
+    
+    .btn-cute {
+        white-space: normal;
+        padding: 8px 18px;
+        font-size: 1.2rem;
+        min-width: 100px;
+        text-align: center;
+    }
+    
+    .colors {
+        grid-template-columns: repeat(3, minmax(70px, 85px));
+        gap: 12px;
+    }
+    
+    .color-box {
+        border-radius: 20px;
+    }
+    
+    .speech-bubble::before,
+    .speech-bubble::after {
+        display: none;
+    }
+    
+    .speech-bubble {
+        border-radius: 50px;
+        padding: 12px 20px;
+        font-size: 1.2rem;
+    }
+    
+    h1 {
+        line-height: 1.2;
+    }
+    
+    .girl {
+        left: -15px;
+        width: 170px;
+    }
+    
+    .final-girl {
+        width: 190px;
+        left: -15px;
+    }
+}
+
+@media (max-width: 380px) {
+    .colors {
+        grid-template-columns: repeat(2, minmax(75px, 85px));
+        gap: 15px;
+    }
+    
+    .btn-cute {
+        padding: 6px 12px;
+        font-size: 1rem;
+        min-width: 85px;
+    }
+    
+    .overlay {
+        padding: 15px;
+    }
+    
+    .next-btn, .submit-btn {
+        font-size: 1.1rem;
+        padding: 10px 20px;
+    }
+}
+
+/* Landscape mode adjustments */
+@media (max-height: 550px) and (orientation: landscape) {
+    .girl {
+        width: 140px;
+    }
+    
+    .final-girl {
+        width: 150px;
+    }
+    
+    .overlay {
+        padding: 12px 20px;
+        max-height: 85vh;
+        overflow-y: auto;
+    }
+    
+    h1 {
+        font-size: 1.6rem;
+    }
+    
+    .colors {
+        grid-template-columns: repeat(4, 70px);
+        gap: 10px;
+    }
+    
+    .button-group {
+        height: 70px;
+    }
+}
+
+/* shake animation */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
